@@ -30,7 +30,7 @@ targets
 requirements  
 - data pre-processing pipeline: 
   - tokenizers (Huggingface) + raw data --> pre-processed data --> truncated samples -->MLM/NSP training data (json)
-- Huggingface BERT-base retrained with 10 million sample (reference 8*V100*4days), and their learning curves/MLM accuracies/NSP accuracies/GLUE performances
+- Huggingface BERT-base retrained with 10 million samples (reference full BERT base training requires 8\*V100\*4 days), and their learning curves/MLM accuracies/NSP accuracies
   * 1 GPU with small batch sizes or accumulated gradients
   * 8 GPUs with the official BERT setting
 - the BERT paper
@@ -66,7 +66,7 @@ requirements
 - GLUE evaluation toolkits
 
 outputs  
-- fine tuned BERTs
+- fine tuned BERTs with reported GLUE performances
 
 ## Step 5. [fm with decoders](fm-with-decoders) (2 weeks)
 
