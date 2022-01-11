@@ -26,14 +26,13 @@ outputs
 targets  
 - the BERT implementation
 - optimization skills (1 GPU + accumulated gradient)
-- fine-tuning skills  
 
 requirements  
-- data pre-processing pipeline: tokenizers (Huggingface) + raw data --> pre-processed data --> MLM/NSP training data
-- Huggenface BERT-base retrained with 10%, 20%, 30%, 40%, 50% training data, and their learning curves/MLM accuracies/NSP accuracies/GLUE performances
+- data pre-processing pipeline: 
+  - tokenizers (Huggingface) + raw data --> pre-processed data --> truncated samples -->MLM/NSP training data (json)
+- Huggingface BERT-base retrained with 10 million sample (reference 8*V100*4days), and their learning curves/MLM accuracies/NSP accuracies/GLUE performances
   * 1 GPU with small batch sizes or accumulated gradients
   * 8 GPUs with the official BERT setting
-- GLUE evaluation toolkits
 - the BERT paper
 
 outputs  
@@ -58,7 +57,18 @@ outputs
 - implementation notes/wiki
 
 
-## Step 4. [fm with decoders](fm-with-decoders) (2 weeks)
+## Step 4. [fine tune](fine-tune) (1 week)
+
+targets  
+- fine-tuning skills  
+
+requirements  
+- GLUE evaluation toolkits
+
+outputs  
+- fine tuned BERTs
+
+## Step 5. [fm with decoders](fm-with-decoders) (2 weeks)
 
 targets  
 - fm with decoders (GPT, unilm, BART, T5)  
@@ -72,7 +82,7 @@ outputs
 - implementation notes/wiki
 
 
-## Step 5. useful extensions (2 weeks)
+## Step 6. useful extensions (2 weeks)
 
 more fm models  
 - XLNet (different pre-training objectives) 
