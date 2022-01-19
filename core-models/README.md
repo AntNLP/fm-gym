@@ -1,11 +1,11 @@
-# data prepare
+# Pre-training data prepare for MLM and NSP
 
 We use [wikipedia-en](https://huggingface.co/datasets/wikipedia) and [book-corpus](https://huggingface.co/datasets/bookcorpus)(not support yet) as pre-training dataset follow [BERT](https://arxiv.org/abs/1810.04805).
 
-## step 1
+## Step 1. segment documents
 `segment_documents.py` divides the document into one sentence per line, using blank lines to separate the documents for meeting input format of step 2.
 
-This script has two arguments: output_file for path of output file and document_num for number of document need precessing.
+This script has two arguments: `output_file` for the path of the output file and `document_num` for the number of documents in the front that needs precessing.
 
 Example:
 ```text
@@ -25,7 +25,7 @@ python segment_documents.py \
     --document_num $document_num
 ```
 
-## step 2
+## step 2. create training data
 `create_training_data.py` constructs pre-processed documents into data for training MLM and NSP tasks and is a implement using tensorflow. (huggingface version is not support yet)
 
 Output format:
@@ -39,6 +39,7 @@ This format meets the needs of both MLM and NSP tasks.
 mask_positions indicates the locations that are masked off (from index 0 and token [CLS]), and mask_tokens indicates the correct tokens.
 A next_sentence_label of 0 means second sentence is next sentence of first sentence.
 
+The first 100k documents of wikipedia-en have been processed and stored in 172.20.3.63:/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/training_data_wikipedia_en_100k.jsonl (readonly).
 
 Usage (same to `create_training_data.sh`):
 ```sh
