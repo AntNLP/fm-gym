@@ -187,7 +187,7 @@ def create_training_instances(
 
     # Remove empty documents
     all_documents = [x for x in all_documents if x]
-    # rng.shuffle(all_documents)
+    rng.shuffle(all_documents)
 
     vocab_words = list(tokenizer.vocab.keys())
     instances = []
@@ -206,7 +206,7 @@ def create_training_instances(
                 )
             )
 
-    # rng.shuffle(instances)
+    rng.shuffle(instances)
     return instances
 
 
