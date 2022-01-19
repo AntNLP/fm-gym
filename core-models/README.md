@@ -35,11 +35,9 @@ Output format:
 ```
 
 This format meets the needs of both MLM and NSP tasks.
-[CLS] and [SEP] have already been added.
-mask_positions indicates the locations that are masked off (from index 0 and token [CLS]), and mask_tokens indicates the correct tokens.
-A next_sentence_label of 0 means second sentence is next sentence of first sentence.
-
-The first 100k documents of wikipedia-en have been processed and stored in 172.20.3.63:/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/training_data_wikipedia_en_100k.jsonl (readonly).
+Special tokens of [CLS] and [SEP] have already been added.
+`mask_positions` indicates the locations that are masked off (from index 0 and token [CLS]), and `mask_tokens` indicates the correct tokens.
+**A next_sentence_label of 0 means second sentence is next sentence of first sentence.**
 
 Usage (same to `create_training_data.sh`):
 ```sh
@@ -63,7 +61,20 @@ python create_pretraining_data.py \
 `vocab.txt` should be consistent with `bert-base-uncased` and can be downloaded from [here](https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt).
 
 Refer to `create_training_data.py` for detailed description of the parameters.
-# references
+
+# Resources
+All data are stored at 172.20.3.63:/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/
+
+`raw_wikipedia_en.json` contains 6,078,422 documents of wikipedia-en as json format of {"title": "...", "text": "..."}
+
+`mlm_wikipedia_en.json` contains 126,966,355 masked sentences line by line as json format of {"masked": "...", "label": {postion: real_token}}
+
+`segmented_wikipedia_en_100k.txt` contains the segmented results of the first 100,000 wikipedia-en documents, one sentence per line, with blank line separating the documents.
+
+`training_data_wikipedia_en_100k.jsonl` contains 301,550 training data that constructed by `create_training_data.py` using `segmented_wikipedia_en_100k.txt`. The data format is {"tokens": ["[CLS]", "...", "[SEP]", "...", "[SEP]"], masked_positions: [...], masked_tokens: ["..."], "next_sentence_label": ...}
+
+
+# References
 
 1. [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805)
 2. https://github.com/google-research/bert
