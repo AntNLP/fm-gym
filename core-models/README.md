@@ -1,4 +1,4 @@
-# Pre-training data prepare for MLM and NSP
+# Pre-training data for MLM and NSP
 
 We use [wikipedia-en](https://huggingface.co/datasets/wikipedia) and [book-corpus](https://huggingface.co/datasets/bookcorpus)(not support yet) as pre-training dataset follow [BERT](https://arxiv.org/abs/1810.04805).
 
@@ -25,8 +25,13 @@ python segment_documents.py \
     --document_num $document_num
 ```
 
-## step 2. create training data
-`create_training_data.py` constructs pre-processed documents into data for training MLM and NSP tasks and is a implement using tensorflow. (huggingface version is not support yet)
+## Step 2. create training data
+
+There are two version of script for creating pre-training data: `create_pretraining_data_hf.py` and `create_pretraining_data_tf.py` using transformers library (hugging face) and tensorflow library respectively. `create_pretraining_data_hf.py` is recommended.
+
+### Hugging Face Version (Recommended)
+
+`create_pretraining_data_hf.py` constructs pre-processed documents in step 1 into data for training MLM and NSP tasks.
 
 Output format:
 ```jsonl
@@ -39,28 +44,30 @@ Special tokens of [CLS] and [SEP] have already been added.
 `mask_positions` indicates the locations that are masked off (from index 0 and token [CLS]), and `mask_tokens` indicates the correct tokens.
 **A next_sentence_label of 0 means second sentence is next sentence of first sentence.**
 
-Usage (same to `create_training_data.sh`):
+Usage:
 ```sh
-input_file='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/segmented_wikipedia_en_100k.txt'
-output_file='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/training_data_wikipedia_en_100k.jsonl'
-vocab_file='./vocab.txt'
+segmented_file_path='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/segmented_wikipedia_en_100k.txt'
+output_file_path='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/training_data_wikipedia_en_100k.jsonl'
 
-python create_pretraining_data.py \
-    --input_file $input_file \
-    --output_file $output_file \
-    --vocab_file $vocab_file \
-    --do_lower_case True \
-    --do_whole_word_mask False \
-    --max_seq_length 512 \
-    --max_predictions_per_seq 77 \
-    --random_seed 42 \
-    --dupe_factor 1 \
-    --short_seq_prob 0.1
+python hf4mlm.py \
+	--segmented_file_path $segmented_file_path
+	--output_file_path $output_file_path 
+	--model_name bert-base-uncased \
+	--block_size 512 \
+	--batch_size 32
 ```
 
-`vocab.txt` should be consistent with `bert-base-uncased` and can be downloaded from [here](https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt).
+### Tensorflow Version
 
-Refer to `create_training_data.py` for detailed description of the parameters.
+`create_pretraining_data_tf.py` constructs pre-processed documents in step 1 into data for training MLM and NSP tasks.
+
+The input and output are same with `create_pretraining_data_hf.py`
+
+TF version script require a `vocab.txt` that should be consistent with `bert-base-uncased` and can be downloaded from [here](https://huggingface.co/bert-base-uncased/resolve/main/vocab.txt).
+
+The full usage of them can be see at `create_pretraining_data_hf.sh` and `create_pretraining_data_tf.sh`
+
+Reading code for detailed description of the parameters.
 
 # Resources
 All data are stored at 172.20.3.63:/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/
@@ -71,8 +78,11 @@ All data are stored at 172.20.3.63:/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wi
 
 `segmented_wikipedia_en_100k.txt` contains the segmented results of the first 100,000 wikipedia-en documents, one sentence per line, with blank line separating the documents.
 
-`training_data_wikipedia_en_100k.jsonl` contains 301,550 training data that constructed by `create_training_data.py` using `segmented_wikipedia_en_100k.txt`. The data format is {"tokens": ["[CLS]", "...", "[SEP]", "...", "[SEP]"], masked_positions: [...], masked_tokens: ["..."], "next_sentence_label": ...}
+`segmented_wikipedia_en_1m.txt` contains the segmented results of the first 1,000,000 wikipedia-en documents, one sentence per line, with blank line separating the documents.
 
+`training_data_wikipedia_en_100k.jsonl` contains 301,550 training data that constructed by `create_pretraining_data.py` using `segmented_wikipedia_en_100k.txt`. The data format is {"tokens": ["[CLS]", "...", "[SEP]", "...", "[SEP]"], masked_positions: [...], masked_tokens: ["..."], "next_sentence_label": ...}
+
+`training_data_wikipedia_en_1m.jsonl` contains 3,023,962 training data that constructed by `create_pretraining_data.py` using `segmented_wikipedia_en_1m.txt`. The data format is {"tokens": ["[CLS]", "...", "[SEP]", "...", "[SEP]"], masked_positions: [...], masked_tokens: ["..."], "next_sentence_label": ...}
 
 # References
 
