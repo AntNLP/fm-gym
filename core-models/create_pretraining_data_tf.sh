@@ -2,7 +2,7 @@ input_file='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/segmented_wi
 output_file='/mnt/data1/public/corpus/Bert_Pretrain/Raw_Wikipedia_EN/training_data_wikipedia_en_100k.jsonl'
 vocab_file='./vocab.txt'
 
-python create_pretraining_data.py \
+python create_pretraining_data_tf.py \
     --input_file $input_file \
     --output_file $output_file \
     --vocab_file $vocab_file \
