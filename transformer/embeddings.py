@@ -72,4 +72,18 @@ class BERTEmbeddings(nn.Module):
         token_type_ids: Tensor = None,
         position_ids: Tensor = None,
     ) -> Tensor:
+        """
+        Args:
+            input_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`):
+                Indices of input sequence tokens in the vocabulary.
+                Indices can be obtained using [`BertTokenizer`].
+            token_type_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
+                Segment token indices to indicate first and second portions of the inputs. Indices are selected in `[0,
+                1]`:
+                - 0 corresponds to a *sentence A* token,
+                - 1 corresponds to a *sentence B* token.
+            position_ids (`torch.LongTensor` of shape `(batch_size, sequence_length)`, *optional*):
+                Indices of positions of each input sequence tokens in the position embeddings. Selected in the range `[0,
+                config.max_position_embeddings - 1]`.
+        """
         pass
