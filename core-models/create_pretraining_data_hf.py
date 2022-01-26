@@ -283,8 +283,10 @@ def create_examples_from_documents(
 
     examples = []
     for step, batch in enumerate(data_loader):
-
-        for idx in range(len(batch)):
+        
+        # don't drop last
+        for idx in range(len(batch["input_ids"])):
+          
             input_ids = batch["input_ids"][idx]
             next_sentence_label = batch["next_sentence_label"][idx]
             labels = batch["labels"][idx]
