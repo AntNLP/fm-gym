@@ -28,7 +28,7 @@ The tree logic between classes is as follows:
 │   ├── CrossAttentionSublayer
 │   │   ├── MultiHeadAttention
 │   ├── FeedforwardSublayer
-├── LearnableEmbeddings  
+├── LearnableEmbeddings
 ├── SinusoidalEmbeddings
 ```
 To obtain the output of a reproduced Transformer, we can define a randomly initialized BERT (Encoder) or BART (Enc-Dec).
@@ -42,8 +42,8 @@ Take BERT as an example:
 │   │   ├── SelfAttentionSublayer
 │   │   │   ├── MultiHeadAttention
 │   │   ├── FeedforwardSublayer
-│   ├── BERTMLMHead
-│   ├── BERTNSPHead
+│   ├── BERTMLMHead (Optional)
+│   ├── BERTNSPHead (Optional)
 ```
 ```python
 # Step 1: Set the Random Seed in the program entry 
